@@ -19,9 +19,11 @@ overlap_bed='overlap.bed'
 # extract gene names and locations
 # step 1) remove header from file using tail
 # step 2) extract features, apply transformations if needed
-# step 3) pipe to disk
+# step 3) sort bed file
+# step 4) pipe to disk
 tail -n +2 "${gene_features}" | \
-    awk '{printf("%s\t%d\t%d\t%s\n","chr"$2,$4-1,$5-1,$1)}' \
+    awk '{printf("%s\t%d\t%d\t%s\n","chr"$2,$4-1,$5-1,$1)}' | \
+    sort -k1,1 -k2,2g -k3,3g \
     > "${gene_bed}"
 
 # extract exon features
